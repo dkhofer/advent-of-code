@@ -1,2 +1,1 @@
-require 'day1.rb'
-require 'day2.rb'
+Dir[File.join(File.dirname(__FILE__), "..", "lib" , "**.rb")].each { |f| require f }
