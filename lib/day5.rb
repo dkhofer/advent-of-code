@@ -1,6 +1,6 @@
 def day5(filename)
   words = File.readlines(filename).map(&:strip)
-  words.filter(&:nice_word).size
+  words.count(&method(:nice_word)).size
 end
 
 def part1_nice_word(word)
