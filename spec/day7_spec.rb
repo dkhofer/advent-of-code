@@ -1,9 +1,6 @@
 require 'spec_helper.rb'
 
 describe "day7" do
-  def expect_circuit(circuit, wire, value)
-  end
-
   context "part 1" do
     it "evaluates a sample circuit correctly" do
       lines = [
