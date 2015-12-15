@@ -5,14 +5,15 @@ end
 
 def parse_ingredients(lines)
   lines.map do |line|
-    parts = line.split
+    name = line.split(":").first
+    parts = line.split(": ").last.split(", ").map { |part| part.split.last.to_i }
     {
-      name: parts[0],
-      capacity: parts[2][0..-2].to_i,
-      durability: parts[4][0..-2].to_i,
-      flavor: parts[6][0..-2].to_i,
-      texture: parts[8][0..-2].to_i,
-      calories: parts[10].to_i,
+      name: name,
+      capacity: parts[0],
+      durability: parts[1],
+      flavor: parts[2],
+      texture: parts[3],
+      calories: parts[4],
     }
   end
 end
