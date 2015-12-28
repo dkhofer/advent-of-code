@@ -5,16 +5,7 @@ def day3(filename)
 end
 
 def house_count(moves)
-  location = [0,0]
-  houses = Hash.new(false)
-  houses[location] = true
-
-  moves.each do |move|
-    location = update_location(move, location)
-    houses[location] = true
-  end
-
-  houses.size
+  houses_visited(moves).uniq.size
 end
 
 def update_location(move, location)
@@ -31,20 +22,14 @@ def update_location(move, location)
   end
 end
 
-def robo_house_count(moves)
-  santa_location = robo_location = [0,0]
-  houses = Hash.new(false)
-  houses[santa_location] = true
-
-  moves.each_with_index do |move, i|
-    if i % 2 == 0
-      santa_location = update_location(move, santa_location)
-      houses[santa_location] = true
-    else
-      robo_location = update_location(move, robo_location)
-      houses[robo_location] = true
-    end
+def houses_visited(moves)
+  moves.reduce([[0,0]]) do |locations, move|
+    locations << update_location(move, locations.last)
   end
+end
 
-  houses.size
+def robo_house_count(moves)
+  moves_with_indices = moves.zip((0...moves.length).to_a)
+  santa_moves, robo_moves = moves_with_indices.partition { |parts| parts[1].even? }
+  (houses_visited(santa_moves.map(&:first)) + houses_visited(robo_moves.map(&:first))).uniq.size
 end

@@ -7,20 +7,9 @@ def day1(filename)
 end
 
 def process_parens(parens)
-  counter = 0
-  first_basement_position = nil
-  parens.each_with_index do |paren, i|
-    if paren == "("
-      counter += 1
-    elsif paren == ")"
-      counter -= 1
-      if counter == -1
-        first_basement_position ||= i + 1
-      end
-    else
-      raise "Unknown character: #{paren}"
-    end
+  (0...parens.length).reduce([0, nil]) do |parts, i|
+    counter = parts.first + (parens[i] == "(" ? 1 : -1)
+    first_basement_position = parts.last || (counter == -1 ? i + 1 : nil)
+    [counter, first_basement_position]
   end
-
-  return [counter, first_basement_position]
 end
