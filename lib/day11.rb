@@ -38,17 +38,13 @@ end
 
 # NOTE(hofer): Thanks, day 10!
 def group_adjacent_elements(list)
-  result = []
-  current = []
-  list.each do |element|
-    if current.empty? || current.first == element
-      current << element
+  list.reduce([]) do |result, element|
+    if result.empty? || result.last.first != element
+      result << [element]
     else
-      result << current
-      current = [element]
+      result.last << element
     end
-  end
 
-  result << current
-  result
+    result
+  end
 end
