@@ -7,17 +7,15 @@ def day9(filename)
 end
 
 def parse_day9_lines(lines, default_distance)
-  graph = Hash.new(default_distance)
-  lines.each do |line|
+  lines.reduce(Hash.new(default_distance)) do |graph, line|
     parts = line.split
     city1 = parts[0]
     city2 = parts[2]
     distance = parts[4]
     graph[[city1, city2]] = distance.to_i
     graph[[city2, city1]] = distance.to_i
+    graph
   end
-
-  graph
 end
 
 def path_lengths(graph)
