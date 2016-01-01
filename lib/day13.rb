@@ -3,21 +3,22 @@ def maximal_seating_happiness(happiness_list, include_me = false)
 end
 
 def parse_list(happiness_list, include_me)
-  graph = {}
-  happiness_list.each do |line|
+  graph = happiness_list.reduce({}) do |graph, line|
     parts = line.split
     name1 = parts[0]
     name2 = parts[-1][0..-2]
     units = parts[3].to_i
     units = -units if parts[2] == "lose"
     graph[[name1, name2]] = units
+    graph
   end
 
   if include_me
     names = graph.keys.flatten
-    names.each do |name|
-      graph[[name, "David H"]] = 0
-      graph[["David H", name]] = 0
+    graph = names.reduce(graph) do |new_graph, name|
+      new_graph[[name, "David H"]] = 0
+      new_graph[["David H", name]] = 0
+      new_graph
     end
   end
 
