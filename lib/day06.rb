@@ -29,32 +29,20 @@ end
 
 def count_lights(rectangles, part)
   # Initialize.
-  grid = []
-  (0..999).each do |x|
-    grid[x] = []
-    (0..999).each do |y|
-      grid[x][y] = 0
-    end
-  end
+  grid = Array.new(1000) { Array.new(1000, 0) }
 
   # Apply the rules.
-  rectangles.each do |rectangle|
+  new_grid = rectangles.reduce(grid) do |grid, rectangle|
     (rectangle[0].first..rectangle[1].first).each do |x|
       (rectangle[0].last..rectangle[1].last).each do |y|
         apply_rule(rectangle, grid, x, y, part)
       end
     end
+    grid
   end
 
   # Count the lights.
-  count = 0
-  (0..999).each do |x|
-    (0..999).each do |y|
-      count += grid[x][y]
-    end
-  end
-
-  count
+  new_grid.reduce(0) { |sum, row| sum + row.reduce(&:+) }
 end
 
 def apply_rule(rectangle, grid, x, y, part)
