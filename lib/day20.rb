@@ -2,25 +2,18 @@ def divisors(n)
   result = Set.new([1,n])
   return result if n == 2
 
-  (2..Math.sqrt(n).to_i + 1).each do |i|
-    if n % i == 0
-      result.merge(divisors(i))
-      result.merge(divisors(n / i))
+  min_divisor = (2..Math.sqrt(n).to_i + 1).find { |i| n % i == 0 }
 
-      # NOTE(hofer): 12 = 2 * 6
-      # But if we just merge the results of the recursive calls for 2
-      # and 6, we won't get 4.
-      products = Set.new
-      result.each do |e1|
-        result.each do |e2|
-          if e1 * e2 < n && n % (e1 * e2) == 0
-            products.add(e1 * e2)
-          end
-        end
-      end
-      result.merge(products)
-      break
-    end
+  if min_divisor
+    result.merge(divisors(min_divisor))
+    result.merge(divisors(n / min_divisor))
+
+    # NOTE(hofer): 12 = 2 * 6
+    # But if we just merge the results of the recursive calls for 2
+    # and 6, we won't get 4.
+    all_products = result.to_a.product(result.to_a).map { |pair| pair.first * pair.last }
+    products = all_products.select { |product| product < n && n % product == 0 }
+    result.merge(products)
   end
 
   return result

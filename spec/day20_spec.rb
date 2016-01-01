@@ -1,6 +1,12 @@
 require 'spec_helper.rb'
 
 describe "day 20" do
+  context "divisors" do
+    it "finds divisors correctly" do
+      expect(divisors(4)).to eq Set.new([1,2,4])
+    end
+  end
+
   context "part 1" do
     it "works for low numbers" do
       expect(house_presents(1)).to eq 10
