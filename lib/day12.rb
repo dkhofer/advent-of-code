@@ -6,18 +6,19 @@ def sum_json_numbers(json, ignore_red = false)
 end
 
 def recursive_sum_numbers(input, ignore_red = false)
-  if input.is_a? Array
+  case input
+  when Array
     input.reduce(0) { |sum, element| sum + recursive_sum_numbers(element, ignore_red) }
-  elsif input.is_a? Hash
+  when Hash
     if ignore_red && input.values.include?("red")
       0
     else
       sum = input.keys.reduce(0) { |sum, element| sum + recursive_sum_numbers(element, ignore_red) }
       sum + input.values.reduce(0) { |sum, element| sum + recursive_sum_numbers(element, ignore_red) }
     end
-  elsif input.is_a? Numeric
+  when Numeric
     input
-  elsif input.is_a? String
+  when String
     0
   else
     raise "Unknown input type.  Input: #{input} Type: #{input.class}"
