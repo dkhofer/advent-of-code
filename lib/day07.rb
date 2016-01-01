@@ -6,18 +6,15 @@ def day7(filename)
 end
 
 def parse_lines(lines)
-  circuit = {}
-  lines.each do |line|
+  lines.reduce({}) do |circuit, line|
     mapping = line.split(" -> ").reverse
     circuit[mapping[0]] = mapping[1]
+    circuit
   end
-
-  circuit
 end
 
 def contains_evaluations(wires, evaluated)
-  wires.each { |wire| return false if evaluated[wire] == :unevaluated }
-  return true
+  wires.reduce(true) { |not_done, wire| not_done && evaluated[wire] != :unevaluated }
 end
 
 def process_circuit(circuit)
