@@ -11,7 +11,7 @@ def sector_id(line)
   letter_groups.keys.each { |letter| letter_counts[letter] = letter_groups[letter].size }
   letters_and_counts = letter_counts.keys.map { |key| {key, letter_counts[key]} }
 
-  sorted_letters = letters_and_counts.sort { |a, b| (b.last <=> a.last) == 0 ? a.first <=> b.first : b.last <=> a.last }
+  sorted_letters = letters_and_counts.sort { |a, b| {b.last, a.first} <=> {a.last, b.first} }
   our_checksum = sorted_letters.map(&.first).join("")[0..4]
   if our_checksum == checksum
     first_parts.last.to_i
