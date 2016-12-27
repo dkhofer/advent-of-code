@@ -1,5 +1,7 @@
 language: ruby
 rvm:
-  - 2.2.2
+  - 2.3.3
+install: bundle install
+cache: bundler
 
 script: cd 2015; bundle exec rspec
